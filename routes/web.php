@@ -11,6 +11,16 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+
+
+
+Route::group(['prefix'=>'admin','namespace'=>'BackEnd'],function (){
+    Route::get('home','HomeController@index');
+    Route::resource('users','UsersController');
 });
+
+
+
+Auth::routes();
+
+//Route::get('/home', 'HomeController@index')->name('home');

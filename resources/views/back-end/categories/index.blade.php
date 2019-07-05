@@ -26,10 +26,6 @@
                         </th>
 
                         <th>
-                            Email
-                        </th>
-
-                        <th>
                             Options
                         </th>
                         </thead>
@@ -38,7 +34,6 @@
                             <tr>
                                 <td>{{$row->id}}</td>
                                 <td>{{$row->name}}</td>
-                                <td>{{$row->email}}</td>
                                 <td class="td-actions">
                                         @include('back-end.shared.buttons.edit',['pluralModel'=>$modelPluralName,'row'=>$row])
                                         @include('back-end.shared.buttons.delete',['pluralModel'=>$modelPluralName,'row'=>$row])

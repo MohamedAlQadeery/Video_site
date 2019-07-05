@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\BackEnd;
 
+use App\Http\Requests\BackEnd\Users\StoreRequest;
+use App\Http\Requests\BackEnd\Users\UpdateRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -17,29 +19,29 @@ class UsersController extends BackEndController
         parent::__construct($model);
     }
 
-    public function store(Request $request){
-        User::create([
-            'name' => $request->input('name'),
-            'email' => $request->input('email'),
-            'password' => Hash::make($request->input('password')),
-        ]);
+    public function store(StoreRequest $request){
+
+      $requestArray = $request->all();
+      $requestArray['password']=Hash::make($requestArray['password']);
+        User::create($requestArray);
 
         return redirect()->route('users.index');
     }
 
 
-    public function update($id,Request $request){
+    public function update($id,UpdateRequest $request){
         $row = User::findOrFail($id);
 
-        $requestArray = [
-            'name'=>$request->input('name'),
-            'email'=>$request->input('email')
-        ];
 
-        if($request->has('password')&& $request->input('password') !=''){
-            $requestArray = $requestArray + ['password'=>Hash::make($request->input('password'))];
 
+        $requestArray = $request->all();
+
+        if(isset($requestArray['password'])&& $requestArray['password'] !=''){
+            $requestArray['password'] = Hash::make($requestArray['password']);
+        }else{
+            unset($requestArray['password']);
         }
+
 
        $row->update($requestArray);
         return redirect()->route('users.index');
